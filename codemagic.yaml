@@ -1,0 +1,19 @@
+workflows:
+  build-apk:
+    name: Build APK
+    environment:
+      flutter: stable
+    scripts:
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Ensure project platform folders (in case missing)
+        script: |
+          if [ ! -d "android" ] || [ ! -d "ios" ]; then
+            flutter create .
+          fi
+      - name: Build release APK
+        script: |
+          flutter build apk --release
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
